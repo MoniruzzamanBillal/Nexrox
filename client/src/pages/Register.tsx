@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Apple, Eye, EyeOff, Facebook, Lock, Mail } from "lucide-react";
+import { Apple, Eye, EyeOff, Facebook, Lock, Mail, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -14,10 +14,24 @@ const Register = () => {
 
   return (
     <div className="RegisterContainer w-full min-h-screen  imageCenter flex items-center justify-center ">
-      <div className=" w-[92%] xsm:w-[90%] sm:w-[85%] md:w-[82%] xmd:w-[75%] lg:w-[65%] m-auto p-6  rounded-xl shadow-xl bg-prime50  backdrop-blur  border border-gray-300 text-gray-50 flex justify-between gap-x-6  ">
+      <div className=" w-[92%] xsm:w-[90%] sm:w-[85%] md:w-[82%] xmd:w-[75%] lg:w-[65%] m-auto p-6  rounded-xl shadow-xl bg-prime50  backdrop-blur  border border-gray-300 text-gray-50 flex justify-between gap-x-6 ralative   ">
+        {/* Close Button */}
+        <Link
+          to="/"
+          className="absolute top-5 right-6 bg-prime50 rounded-l-lg  "
+        >
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-green-500 hover:text-green-400 hover:bg-green-500/10"
+          >
+            <X className="h-6 w-6" />
+          </Button>
+        </Link>
+
         {/* register left side  */}
         <div className="registerLeft w-[50%]  ">
-          <div className=" mb-4 ">
+          <div className=" mb-6 ">
             <h1 className="text-3xl font-bold mb-2">Open your account</h1>
             <p className="text-gray-400">
               Already have an account?{" "}
