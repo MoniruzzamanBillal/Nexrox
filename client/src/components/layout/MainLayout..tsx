@@ -11,7 +11,7 @@ export const MainLayout = () => {
       {/* nav ends */}
 
       {/* child component  */}
-      <div className="childComponent  min-h-screen   ">
+      <div className="childComponent  min-h-screen    ">
         <Outlet />
       </div>
       {/* child component  */}

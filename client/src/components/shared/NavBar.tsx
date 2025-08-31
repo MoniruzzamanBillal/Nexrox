@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Grid3X3 } from "lucide-react";
+import { Link } from "react-router-dom";
 import Wrapper from "./Wrapper";
 
 const NavBar = () => {
@@ -11,13 +12,16 @@ const NavBar = () => {
             {/* Logo */}
 
             <div className="flex items-center space-x-4">
-              <div className=" w-[14rem] h-[3.3rem] ">
-                <img
-                  src="https://i.postimg.cc/fRDRWXYJ/footer-logo.png"
-                  alt="image logo"
-                  className=" w-full h-full  "
-                />
-              </div>
+              <Link to={"/"}>
+                {" "}
+                <div className=" w-[14rem] h-[3.3rem] ">
+                  <img
+                    src="https://i.postimg.cc/fRDRWXYJ/footer-logo.png"
+                    alt="image logo"
+                    className=" w-full h-full  "
+                  />
+                </div>{" "}
+              </Link>
 
               {/* Categories Button */}
               <div className=" py-2 px-5 rounded-full cursor-pointer flex justify-between items-center  border border-green-600  text-green-500  hover:border-green-700">
@@ -37,16 +41,20 @@ const NavBar = () => {
                 BECOME A SELLER
               </button>
 
-              <button className="text-white hover:text-green-500 transition-colors">
-                LOGIN
-              </button>
-
-              <Button
-                size="sm"
-                className=" rounded-full bg-green-600 hover:bg-green-700 text-white"
-              >
-                Registration
-              </Button>
+              <Link to={"/login"}>
+                {" "}
+                <button className="text-white hover:text-green-500 transition-colors">
+                  LOGIN
+                </button>
+              </Link>
+              <Link to={"/register"}>
+                <Button
+                  size="sm"
+                  className=" rounded-full bg-green-600 hover:bg-green-700 text-white"
+                >
+                  Registration
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
