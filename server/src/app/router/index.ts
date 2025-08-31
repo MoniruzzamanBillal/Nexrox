@@ -1,12 +1,13 @@
 import { Router } from "express";
-import { testRouter } from "../modules/boilerModule/test.route";
+
+import { jobRouter } from "../modules/jobs/job.route";
 
 const router = Router();
 
 const routeArray = [
   {
-    path: "/test",
-    route: testRouter,
+    path: "/jobs",
+    route: jobRouter,
   },
 ];
 

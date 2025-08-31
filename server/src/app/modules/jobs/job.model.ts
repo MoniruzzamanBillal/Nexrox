@@ -1,6 +1,5 @@
 import { model, Schema } from "mongoose";
 import { TJob } from "./job.interface";
-import { jobLevelConst } from "./job.constants";
 
 const jobSchema = new Schema<TJob>(
   {
@@ -35,10 +34,6 @@ const jobSchema = new Schema<TJob>(
     level: {
       type: String,
       required: [true, "Job level is required"],
-      enum: {
-        values: Object.values(jobLevelConst),
-        message: "{VALUE} is not a valid job level",
-      },
     },
     category: {
       type: [String],
