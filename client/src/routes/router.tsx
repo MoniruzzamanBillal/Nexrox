@@ -1,5 +1,6 @@
 import App from "@/App";
 import { createBrowserRouter } from "react-router-dom";
+import Register from "./../pages/Register";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/register",
-        element: <p>register </p>,
+        element: <Register />,
       },
       {
         path: "/about",
