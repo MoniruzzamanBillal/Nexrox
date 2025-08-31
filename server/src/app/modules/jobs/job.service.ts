@@ -19,18 +19,43 @@ const createJob = async (payload: TJob, userId: string) => {
 
 // ! for getting all jobs
 const getAllJobs = async () => {
-  const result = await jobModel.find().populate("author", " _id name email ");
+  const result = await jobModel
+    .find()
+    .populate("author", " _id name email ")
+    .sort({ createdAt: -1 });
 
   return result;
 };
 // ! for updating a job
-const updateJob = async (jobId: string) => {
-  console.log("job id = ", jobId);
+const updateJob = async (jobId: string, payload: TJob, userId: string) => {
+  const jobData = await jobModel.findOne({ _id: jobId, author: userId });
+
+  if (!jobData) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "This used did not create this job !!!"
+    );
+  }
+
+  const result = await jobModel.findByIdAndUpdate(jobId, payload, {
+    new: true,
+  });
+
+  return result;
 };
 
 // ! for deleting a job
-const deleteJob = async (jobId: string) => {
-  console.log("job id = ", jobId);
+const deleteJob = async (jobId: string, userId: string) => {
+  const jobData = await jobModel.findOne({ _id: jobId, author: userId });
+
+  if (!jobData) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "This used did not create this job !!!"
+    );
+  }
+
+  await jobModel.findByIdAndDelete(jobId);
 };
 
 //

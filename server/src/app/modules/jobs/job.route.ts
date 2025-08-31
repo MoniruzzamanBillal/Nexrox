@@ -5,7 +5,7 @@ import { jobController } from "./job.controller";
 const router = Router();
 
 // ! for getting all job
-router.get("/", jobController.getAllJobs);
+router.get("/", authCheck, jobController.getAllJobs);
 
 // ! for creating a job
 router.post("/", authCheck, jobController.createJob);
@@ -14,7 +14,7 @@ router.post("/", authCheck, jobController.createJob);
 router.put("/:id", authCheck, jobController.updateJob);
 
 // ! for creating a job
-router.delete("/:id", jobController.deleteJob);
+router.delete("/:id", authCheck, jobController.deleteJob);
 
 //
 export const jobRouter = router;

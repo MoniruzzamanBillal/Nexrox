@@ -29,19 +29,26 @@ const getAllJobs = catchAsync(async (req, res) => {
 
 // ! for updating a job
 const updateJob = catchAsync(async (req, res) => {
-  const result = await jobServices.updateJob(req?.params?.id);
+  const result = await jobServices.updateJob(
+    req?.params?.id,
+    req?.body,
+    req?.user?.userId
+  );
 
   sendResponse(res, {
     status: httpStatus.OK,
     success: true,
-    message: "Jobs updated successfully!!!",
+    message: "Job updated successfully!!!",
     data: result,
   });
 });
 
 // ! for updating a job
 const deleteJob = catchAsync(async (req, res) => {
-  const result = await jobServices.deleteJob(req?.params?.id);
+  const result = await jobServices.deleteJob(
+    req?.params?.id,
+    req?.user?.userId
+  );
 
   sendResponse(res, {
     status: httpStatus.OK,
