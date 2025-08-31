@@ -1,12 +1,11 @@
 import { ErrorRequestHandler } from "express";
-import { TerrorSource } from "../interface/error";
-import { handleCastError } from "../Error/handleCatError";
-import config from "../config";
 import { ZodError } from "zod";
-import { handleZodError } from "../Error/handleZodError";
-import { handleValidationError } from "../Error/handleValidationError";
-import { handleDuplicateError } from "../Error/handleDuplicateError";
 import AppError from "../Error/AppError";
+import { handleCastError } from "../Error/handleCatError";
+import { handleDuplicateError } from "../Error/handleDuplicateError";
+import { handleValidationError } from "../Error/handleValidationError";
+import { handleZodError } from "../Error/handleZodError";
+import { TerrorSource } from "../interface/error";
 
 const globalErrorHandler: ErrorRequestHandler = async (
   error,
@@ -67,7 +66,7 @@ const globalErrorHandler: ErrorRequestHandler = async (
     success: false,
     message,
     errorSources,
-    stack: config.node_env === "development" ? error?.stack : null,
+    stack: error?.stack ?? null,
   });
 };
 
