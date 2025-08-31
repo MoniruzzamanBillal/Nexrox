@@ -3,10 +3,14 @@ import { TJob } from "./job.interface";
 
 const jobSchema = new Schema<TJob>(
   {
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "Author is required !!!"],
+    },
     title: {
       type: String,
       required: [true, "Job title is required"],
-      trim: true,
     },
     lowSalary: {
       type: Number,

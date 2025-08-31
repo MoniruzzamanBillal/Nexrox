@@ -5,7 +5,7 @@ import { jobServices } from "./job.service";
 
 // ! for creating a job
 const createJob = catchAsync(async (req, res) => {
-  const result = await jobServices.createJob(req?.body);
+  const result = await jobServices.createJob(req?.body, req?.user?.userId);
 
   sendResponse(res, {
     status: httpStatus.OK,
