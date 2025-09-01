@@ -1,9 +1,24 @@
 import { Button } from "@/components/ui/button";
+import { logOut } from "@/redux/features/auth/auth.slice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { ChevronDown, Grid3X3 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Wrapper from "./Wrapper";
 
 const NavBar = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { token } = useAppSelector((state) => state.auth);
+
+  console.log(token);
+
+  // ! for logout
+  const handleLogout = () => {
+    dispatch(logOut());
+    navigate("/login");
+  };
+
   return (
     <div className="NavBarContainer bg-prime50 text-gray-50 py-4 ">
       <Wrapper>
@@ -42,11 +57,25 @@ const NavBar = () => {
               </button>
 
               <Link to={"/login"}>
-                {" "}
                 <button className="text-white hover:text-green-500 transition-colors">
                   LOGIN
                 </button>
               </Link>
+
+              {token ? (
+                <button
+                  onClick={() => handleLogout()}
+                  className="text-white hover:text-green-500 transition-colors"
+                >
+                  LOGOUT
+                </button>
+              ) : (
+                <Link to={"/login"}>
+                  <button className="text-white hover:text-green-500 transition-colors">
+                    LOGIN
+                  </button>
+                </Link>
+              )}
               <Link to={"/register"}>
                 <Button
                   size="sm"
