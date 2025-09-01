@@ -1,23 +1,64 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { useLogInMutation } from "@/redux/features/auth/auth.api";
+import { setUser } from "@/redux/features/auth/auth.slice";
+import { useAppDispatch } from "@/redux/hook";
+import { TUser } from "@/types/globalTypes";
+import { verifyToken } from "@/util/verifyToken";
 import { Apple, Eye, EyeOff, Facebook, Lock, Mail, X } from "lucide-react";
+import { toast } from "sonner";
 
 const loginImg = "https://i.postimg.cc/xdcdzQ8m/register-Img.jpg";
 
 const Login = () => {
+  const dispatch = useAppDispatch();
+  const [logIn, { isLoading }] = useLogInMutation();
+
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle login logic here
     console.log("Login attempt:", { email, password, rememberMe });
+
+    toast.success("Logged in !!!");
+
+    const toastId = toast.loading("Loginng in...");
+
+    try {
+      const payload = {
+        email,
+        password,
+      };
+
+      const result = await logIn(payload).unwrap();
+
+      if (result?.success) {
+        const token = result?.token;
+
+        const user = verifyToken(token) as TUser;
+
+        dispatch(setUser({ user, token }));
+        toast.success(result?.message, { id: toastId, duration: 1400 });
+
+        navigate("/", {
+          replace: true,
+        });
+      }
+    } catch (error) {
+      const errorMsg = (error as any)?.data?.message;
+      toast.error(errorMsg, { id: toastId, duration: 1800 });
+      console.log(error);
+    }
   };
 
   return (
@@ -121,10 +162,11 @@ const Login = () => {
 
             {/* Login Button */}
             <Button
+              disabled={isLoading}
               type="submit"
               className="w-full h-14 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-full text-lg"
             >
-              Login Now
+              {isLoading ? "Logging in..." : "Login Now"}
             </Button>
 
             {/* Divider */}

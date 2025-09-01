@@ -7,10 +7,13 @@ import "./index.css";
 import { persistor, store } from "./redux/store.ts";
 import router from "./routes/router.tsx";
 
+import { Toaster } from "sonner";
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
+        <Toaster />
         <RouterProvider router={router} />
       </PersistGate>
     </Provider>
