@@ -27,10 +27,6 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Login attempt:", { email, password, rememberMe });
-
-    toast.success("Logged in !!!");
 
     const toastId = toast.loading("Loginng in...");
 

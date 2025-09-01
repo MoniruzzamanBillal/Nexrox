@@ -1,16 +1,59 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { useSignUpMutation } from "@/redux/features/auth/auth.api";
 import { Apple, Eye, EyeOff, Facebook, Lock, Mail, X } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const registerImg = "https://i.postimg.cc/xdcdzQ8m/register-Img.jpg";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [signUp, { isLoading }] = useSignUpMutation();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      toast.error("Password don't match !!!");
+      return;
+    }
+
+    const toastId = toast.loading("Signing Up...");
+
+    try {
+      const payload = {
+        email,
+        password,
+        name,
+      };
+
+      const result = await signUp(payload).unwrap();
+
+      if (result?.success) {
+        toast.success(result?.message, { id: toastId, duration: 1400 });
+
+        navigate("/login", {
+          replace: true,
+        });
+      }
+    } catch (error) {
+      const errorMsg = (error as any)?.data?.message;
+      toast.error(errorMsg, { id: toastId, duration: 1800 });
+      console.log(error);
+    }
+  };
 
   return (
     <div className="RegisterContainer w-full min-h-screen  imageCenter flex items-center justify-center ">
@@ -41,7 +84,24 @@ const Register = () => {
             </p>
           </div>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            {/* Name Field */}
+            <div className="relative">
+              <Label htmlFor="name" className="sr-only">
+                User Name
+              </Label>
+              <div className="relative">
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="User Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="pl-10 bg-transparent border-green-500 border-2 rounded-full h-12 text-white placeholder:text-gray-400 focus:border-green-400"
+                />
+              </div>
+            </div>
+
             {/* Email Field */}
             <div className="relative">
               <Label htmlFor="email" className="sr-only">
@@ -53,6 +113,8 @@ const Register = () => {
                   id="email"
                   type="email"
                   placeholder="Email Address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="pl-10 bg-transparent border-green-500 border-2 rounded-full h-12 text-white placeholder:text-gray-400 focus:border-green-400"
                 />
               </div>
@@ -68,6 +130,8 @@ const Register = () => {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                   className="pl-10 pr-10 bg-transparent border-green-500 border-2 rounded-full h-12 text-white placeholder:text-gray-400 focus:border-green-400"
                 />
@@ -98,6 +162,8 @@ const Register = () => {
                   id="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   className="pl-10 pr-10 bg-transparent border-green-500 border-2 rounded-full h-12 text-white placeholder:text-gray-400 focus:border-green-400"
                 />
                 <Button
@@ -117,8 +183,11 @@ const Register = () => {
             </div>
 
             {/* Create Account Button */}
-            <Button className="w-full bg-green-500 hover:bg-green-600 text-white rounded-full h-12 text-base font-semibold">
-              Create Account
+            <Button
+              disabled={isLoading}
+              className="w-full bg-green-500 hover:bg-green-600 text-white rounded-full h-12 text-base font-semibold"
+            >
+              {isLoading ? "Creating Account..." : "Create Account"}
             </Button>
           </form>
 
