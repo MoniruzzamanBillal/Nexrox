@@ -11,8 +11,6 @@ const NavBar = () => {
 
   const { token } = useAppSelector((state) => state.auth);
 
-  console.log(token);
-
   // ! for logout
   const handleLogout = () => {
     dispatch(logOut());
