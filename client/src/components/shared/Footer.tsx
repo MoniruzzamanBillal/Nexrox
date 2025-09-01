@@ -1,11 +1,12 @@
 import { Facebook, Instagram, Twitter } from "lucide-react";
-import { Button } from "../ui/button";
+
 import {
   footerAbout,
   footerCard,
   footerCategories,
   footerSupport,
-} from "./../../../../server/src/app/constants/footerConst";
+} from "@/constants/footerConst";
+import { Button } from "../ui/button";
 import Wrapper from "./Wrapper";
 
 type TFooterLink = {
